@@ -1,0 +1,21 @@
+name: Despliegue de App Estatica
+
+# El flujo se activará cada vez que hagas "push" a la rama main
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Copia los archivos de tu repositorio al servidor virtual de GitHub
+    - name: Clonar el codigo
+      uses: actions/checkout@v4
+
+    # 2. Aquí podrías meter pruebas (linter), pero al ser un HTML básico,
+    # pasamos directo a avisarle a Render que descargue los cambios.
+    - name: Disparar Deploy en Render
+      run: |
+        curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
